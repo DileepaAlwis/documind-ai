@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-dotenv
+python-multipart
+httpx
+sqlalchemy
+pymysql
+cryptography
+pymupdf
+python-docx
+sentence-transformers
+qdrant-client
+pytest
