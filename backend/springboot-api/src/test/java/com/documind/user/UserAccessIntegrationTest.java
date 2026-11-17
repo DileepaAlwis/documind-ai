@@ -79,6 +79,25 @@ class UserAccessIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
+    void me_withNonNumericSubjectReturnsUnauthorized() throws Exception {
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("documind-api")
+                .subject("not-a-user-id")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(3600))
+                .claim("role", "USER")
+                .build();
+        String token = jwtEncoder
+                .encode(JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(), claims))
+                .getTokenValue();
+
+        mockMvc.perform(get("/api/users/me").header("Authorization", bearer(token)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.status").value(401));
+    }
+
+    @Test
     void me_withExpiredTokenIsRejected() throws Exception {
         register(EMAIL);
         Long id = users.findByEmail(EMAIL).orElseThrow().getId();

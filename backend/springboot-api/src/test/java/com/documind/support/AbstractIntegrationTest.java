@@ -104,4 +104,9 @@ public abstract class AbstractIntegrationTest {
         user.setStatus(UserStatus.DISABLED);
         users.save(user);
     }
+
+    protected String registerAndLogin(String email) throws Exception {
+        register(email);
+        return accessToken(login(email));
+    }
 }

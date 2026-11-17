@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.documind.security.CurrentUser;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -22,12 +24,12 @@ public class UserController {
 
     @GetMapping("/me")
     public UserResponse me(@AuthenticationPrincipal Jwt jwt) {
-        return userService.getProfile(Long.valueOf(jwt.getSubject()));
+        return userService.getProfile(CurrentUser.id(jwt));
     }
 
     @PutMapping("/me")
     public UserResponse update(@AuthenticationPrincipal Jwt jwt,
                                @Valid @RequestBody UpdateProfileRequest request) {
-        return userService.updateProfile(Long.valueOf(jwt.getSubject()), request);
+        return userService.updateProfile(CurrentUser.id(jwt), request);
     }
 }
