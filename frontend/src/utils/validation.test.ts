@@ -4,6 +4,8 @@ import {
   validateFullName,
   validatePassword,
   validatePasswordConfirmation,
+  validateWorkspaceDescription,
+  validateWorkspaceName,
 } from "./validation";
 
 describe("validateEmail", () => {
@@ -45,5 +47,22 @@ describe("validatePasswordConfirmation", () => {
     expect(validatePasswordConfirmation("Passw0rd123", "")).not.toBeNull();
     expect(validatePasswordConfirmation("Passw0rd123", "Different1")).not.toBeNull();
     expect(validatePasswordConfirmation("Passw0rd123", "Passw0rd123")).toBeNull();
+  });
+});
+
+describe("validateWorkspaceName", () => {
+  it("requires a non-blank name of at most 120 characters", () => {
+    expect(validateWorkspaceName("   ")).not.toBeNull();
+    expect(validateWorkspaceName("x".repeat(121))).not.toBeNull();
+    expect(validateWorkspaceName("x".repeat(120))).toBeNull();
+    expect(validateWorkspaceName("Biology")).toBeNull();
+  });
+});
+
+describe("validateWorkspaceDescription", () => {
+  it("allows empty text and rejects more than 1000 characters", () => {
+    expect(validateWorkspaceDescription("")).toBeNull();
+    expect(validateWorkspaceDescription("d".repeat(1000))).toBeNull();
+    expect(validateWorkspaceDescription("d".repeat(1001))).not.toBeNull();
   });
 });

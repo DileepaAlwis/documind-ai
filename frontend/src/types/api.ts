@@ -26,3 +26,18 @@ export interface ApiError {
   message: string;
   path: string;
 }
+
+export interface Workspace {
+  id: number;
+  name: string;
+  description: string | null;
+  documentCount: number;
+  readyDocumentCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface WorkspaceInput {
+  name: string;
+  description: string;
+}

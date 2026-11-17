@@ -28,3 +28,14 @@ export function validatePasswordConfirmation(password: string, confirmation: str
   if (password !== confirmation) return "Passwords do not match.";
   return null;
 }
+
+export function validateWorkspaceName(value: string): string | null {
+  const name = value.trim();
+  if (!name) return "Workspace name is required.";
+  if (name.length > 120) return "Workspace name must be 120 characters or fewer.";
+  return null;
+}
+
+export function validateWorkspaceDescription(value: string): string | null {
+  return value.trim().length > 1000 ? "Description must be 1000 characters or fewer." : null;
+}
